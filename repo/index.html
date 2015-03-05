@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Spletni radio</title>
+		<link rel="stylesheet" href="css/style.min.css">
+		<script src="js/script.min.js"></script>
+	</head>
+	<body>
+	<div id="tema" class="default">
+		<h1>Spletni radio</h1>
+		<p>
+			<span><a onclick="meni('predvajalnik')">Postaja</a></span> | 
+			<span><a onclick="meni('seznam')">Seznam</a></span> | 
+			<span><a onclick="meni('teme')">teme</a></span> | 
+			<span><a onclick="meni('credits')">credits</a></span>
+		</p>
+		<div id="predvajalnik">
+			postaja:<br>
+			<audio id="streamer" autoplay>
+    			<source src="http://live1.radioantena.si/Antena-Gorenjska" type="audio/ogg">
+        		<source src="http://live1.radioantena.si/Antena-Gorenjska" type="audio/mpeg">
+            	<source src="http://live1.radioantena.si/Antena-Gorenjska" type="audio/waw">
+            	Your browser does not support the audio element.
+            </audio>
+            <img id="ustavi" src="http://spletnival.com/datoteke/slike/grafike/modra/ustavi.svg" onclick="document.getElementById('streamer').pause();document.getElementById('ustavi').style.display='none';document.getElementById('predvajaj').style.display='block';"/>
+            <img id="predvajaj" onclick="document.getElementById('streamer').play();document.getElementById('predvajaj').style.display='none';document.getElementById('predvajaj').style.display='block';" src="http://spletnival.com/datoteke/slike/grafike/modra/predvajaj.svg" style="display:none;">
+		</div>
+
+		<div id="seznam" style="display:none;">
+			<input type="text" id="iskanje" placeholder="išči" onkeyup="postaje()">
+			<div id="postaje"></div>
+			<script>postaje();</script>
+		</div>
+
+		<div id="teme" style="display:none;">
+			<p id="tematika">
+				<span><a onclick="tema('crna')">crna</a></span> | 
+				<span><a onclick="tema('bela')">bela</a></span>
+			</p>
+		</div>
+
+		<div id="credits" style="display:none;">
+			credits
+		</div>
+	</div>
+	</body>
+</html>
