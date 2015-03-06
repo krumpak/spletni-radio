@@ -1,81 +1,241 @@
-function meni(str){
-var gumbi = ['predvajalnik', 'seznam', 'teme', 'credits'];
-    var k;
-	for(k = 0; k < gumbi.length; k++) {
-		if(str==gumbi[k]){
-			document.getElementById(gumbi[k]).style.display = "block";
-		} else {
-			document.getElementById(gumbi[k]).style.display = "none";
-		}
-	}
+function $(id)
+{
+    return document.getElementById(id);
 }
 
-function postaje() {
-var search='';
-search=document.getElementById("iskanje").value;
-    var arr=data();
-    var i;
-    var out = "<ul>";
-j=search.toLowerCase();
-    for(i = 0; i < arr.length; i++) {
-        if(arr[i].ime.toLowerCase().indexOf(j)>=0){
-out += "<li><a href='#' onclick='zamenjaj(\""+arr[i].kodno+"\");window.location.replace(\"?p="+arr[i].kodno+"\");'>" + arr[i].ime+"</a></li>";
-//out += "<li><a href='#' onclick='zamenjaj(\""+arr[i].kodno+"\");'>" + arr[i].ime+"</a></li>";
-    }
-}
-    out += "</ul>"
-    document.getElementById("postaje").innerHTML = out;
-}
-function tema(barva)
+function ShowMenu(page)
+{
+    var buttons = ['predvajalnik', 'teme', 'credits'];
+
+    for(var i = 0; i < buttons.length; i++)
     {
-        document.getElementById("tema").className = barva;
+        if(page==buttons[i])
+        {
+            $(buttons[i]).style.display = "block";
+        } else {
+            $(buttons[i]).style.display = "none";
+        }
     }
-
-function zamenjaj(str){
-    setCookie("spletni-radio", str+":default", 1);
+    $('seznam').style.display = "block";
 }
-function setCookie(cname, cvalue, exdays) {
+
+function AllRadioStations()
+{
+    var searchStr = $("iskanje").value;
+    searchStr = $("iskanje").value;
+    var listData=RadioStationList();
+    var list = "<ul>";
+
+    checkedStr=searchStr.toLowerCase();
+        for(i = 0; i < listData.length; i++)
+        {
+            if(listData[i].ime.toLowerCase().indexOf(checkedStr)>=0){
+            list += "<li><a href='#' onclick='ChangeCookieRadioStationValue(\""+listData[i].kodno+"\");'>" + listData[i].ime+"</a></li>";
+        }
+    }
+    list += "</ul>"
+    $("postaje").innerHTML = list;
+}
+
+function setCookie(cValue)
+{
+    var cName = "spletni-radio";
     var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    d.setTime(d.getTime() + (1*24*60*60*1000));
     var expires = "expires="+d.toUTCString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
+    document.cookie = cName + "=" + cValue + "; " + expires;
 }
 
-function getCookie(cname) {
-    var cvalue = document.cookie.replace(cname+"=", "").split(':');
-    for(var i=0; i<cvalue.length; i++) {
-        var valuesarray = cvalue[i];
-        /*while (c.charAt(0)==' ') c = c.substring(1);
-        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);*/
-    }
-    return cvalue;
+function getCookieValues()
+{
+    var cName = "spletni-radio";
+    var cContent = document.cookie.replace(cName+"=", "").split(':');
+    return cContent;
 }
 
+function getCookieRadioStation()
+{
+    var cValue = getCookieValues();
+    return cValue[0];
+}
 
-function play(url) {
-    var audioElement = document.getElementById('streamer');
-    audioElement.setAttribute('src', url);
+function getCookieTheme()
+{
+    var cValue = getCookieValues();
+    return cValue[1];
+}
+
+function setCookieRadioStationValue(RadioStation)
+{
+    return RadioStation+":"+getCookieTheme()+":"+getCookieVolume();
+}
+
+function setCookieThemeValue(Theme)
+{
+    return getCookieRadioStation()+":"+Theme+":"+getCookieVolume();
+}
+
+function ChangeTheme(Theme)
+{
+    setCookie( setCookieThemeValue(Theme) );
+    $("tema").className = Theme;
+}
+
+function ChangeCookieRadioStationValue(RadioStation)
+{
+    setCookie( setCookieRadioStationValue(RadioStation) );
+    window.location.replace("/?"+RadioStation);
+}
+
+function getUrlRadioStation()
+{
+    return window.location.search.substring(1);
+}
+
+function PlayRadio(stream) {
+    var audioElement = document.createElement('audio');
+    audioElement.setAttribute('id', 'streamer');
+    audioElement.setAttribute('src', stream);
+    document.body.appendChild(audioElement);
     audioElement.play();
 }
-function checkCookie() {
-    var cookie = getCookie("spletni-radio");
-        //alert(cookie[0]+'-'+cookie[1]);
-     /*if (cookie[0] == "null") {
-        //setTimeout(function() { checkCookie(); }, 500);
-    }*/
-    if( typeof cookie[0] == 'string' && cookie[0].length > 1 && cookie[0] != "0"){
-        var postaja1=cookie[0];
-        var postaja2=data();
-        var i;
-        var ta;
-        for(i = 0; i < postaja2.length; i++) {
-            if(postaja2[i].kodno==postaja1){
-                ta=(postaja2[i].stream);
-                play(ta);
+
+function checkSettings() 
+{
+    var Theme = getCookieTheme();
+    $("tema").className = Theme;
+    var urlRadioStation = getUrlRadioStation();
+    var CookieRadioStation = getCookieRadioStation();
+    var SelectedRadioStation ='';
+
+    if( urlRadioStation != '' && CookieRadioStation == '' ){
+        SelectedRadioStation =urlRadioStation;
+        setCookie(SelectedRadioStation+":bela:0.7");
+    }
+    else if( urlRadioStation != '' && CookieRadioStation != '' ){
+        SelectedRadioStation =urlRadioStation;
+        setCookie(SelectedRadioStation+":bela:"+getCookieVolume());
+    } else {
+        SelectedRadioStation = CookieRadioStation;
+        if( getUrlRadioStation() != SelectedRadioStation )
+        {
+            window.location.replace("/?"+SelectedRadioStation);
+        }
+    }
+
+    if( typeof SelectedRadioStation == 'string' && SelectedRadioStation.length > 1 && SelectedRadioStation != "0")
+    {
+        var AllRadioStations=RadioStationList();
+        for(var i = 0; i < AllRadioStations.length; i++)
+        {
+            if(AllRadioStations[i].kodno==SelectedRadioStation)
+            {
+                var StreamURL=(AllRadioStations[i].stream);
+                if($('streamer') == null)
+                {
+                    PlayRadio(StreamURL);
+                    $('RadionName').innerHTML = "<a href='?"+AllRadioStations[i].kodno+"' target='_self'>"+AllRadioStations[i].ime+"</a>";
+                    document.title = AllRadioStations[i].ime;
+                }
             }
         }
     } else {
-        setCookie("spletni-radio", "0:default", 1);
+        setCookie("0:bela:0.7");
+    }
+
+    var cVolume = getCookieVolume();
+    cVolume = cVolume;
+    if( cVolume >= 0 && cVolume <= 1)
+    {
+        $('streamer').volume = cVolume;
+        var max = 40;
+        var bar = max*cVolume;
+        for(var i=1;i<=max;i++){
+            var element = "bar"+i;
+            if(i<=bar){
+                $(element).className = 'volumeBar over';
+            } else {
+                $(element).className = 'volumeBar';
+            }
+        }
+    } else {
+        setCookieVolumeValue(cVolume);
     }
 }
-checkCookie();
+
+function StartStopRadio(){
+    if( $('streamer').paused )
+    {
+        $('streamer').play();
+        $('predvajaj').style.display='block';
+        $('ustavi').style.display='none';
+    } else {
+        $('streamer').pause();
+        $('predvajaj').style.display='none';
+        $('ustavi').style.display='block';
+    }
+}
+
+function muteRadio(){
+    if( $('streamer').muted )
+    {
+        $('mute').style.display='none';
+        $('muted').style.display='block';
+        $('streamer').muted = false;
+    } else {
+        $('mute').style.display='block';
+        $('muted').style.display='none';
+        $('streamer').muted = true;
+    }
+}
+
+/* VOLUME SLIDER*/
+function VolumeSlider(){
+    var NumberOfColumns=30;
+    var height=30;
+    var width=100-NumberOfColumns;
+
+    var barWidth = parseInt(width/NumberOfColumns);
+    var Slider = '';
+    var SliderCline = height/NumberOfColumns;
+    var SliderHeight = 0;
+    var SliderTop = 100-SliderHeight;
+    for(var i = 1; i <= NumberOfColumns; i++){
+        SliderHeight += SliderCline;
+        SliderTop = 100-SliderHeight;
+        Slider += '<div id="bar'+i+'" onmousedown="ChangeMouseVolumeSlider('+i+','+NumberOfColumns+')" class="volumeBar" style="height:'+parseInt(SliderHeight)+'px;width:'+barWidth+'px;margin-top:'+parseInt(SliderTop-100+height)+'px"></div>';
+    }
+    $('volume').innerHTML = Slider;
+}
+
+function getCookieVolume()
+{
+    var cValue = getCookieValues();
+    return cValue[2];
+}
+
+function setCookieVolumeValue(Volume)
+{
+    return getCookieRadioStation()+":"+getCookieTheme()+":"+(parseFloat(Volume).toFixed(2));
+}
+
+function ChangeVolume(Volume)
+{
+    $('streamer').volume = Volume;
+    var cContent = setCookieVolumeValue(Volume);
+    setCookie( cContent );
+}
+
+function ChangeMouseVolumeSlider(bar,max){
+    var volume = bar/max;
+    ChangeVolume(volume);
+
+    for(var i=1;i<=max;i++){
+        var element = "bar"+i;
+        if(i<=bar){
+            $(element).className = 'volumeBar over';
+        } else {
+            $(element).className = 'volumeBar';
+        }
+    }
+}

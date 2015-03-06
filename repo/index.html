@@ -3,50 +3,46 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Spletni radio</title>
+		<link rel="stylesheet" href="css/fonts.css">
 		<link rel="stylesheet" href="css/style.min.css">
 		<script src="js/script.min.js"></script>
 	</head>
 	<body>
-	<script>
-		//var cookie1 = getCookie("spletni-radio");
-		//alert('asd');
-		/*if (typeof cookie[0] == 'string' && cookie[0].length > 1 && cookie[0] !="null"){
-			meni('seznam');
-		}*/
-	</script>
-	<div id="tema" class="default">
-		<h1>Spletni radio</h1>
-		<p>
-			<span><a onclick="meni('predvajalnik')">Postaja</a></span> | 
-			<span><a onclick="meni('seznam')">Seznam</a></span> | 
-			<span><a onclick="meni('teme')">teme</a></span> | 
-			<span><a onclick="meni('credits')">credits</a></span>
-		</p>
+	<div id="tema" class="bela">
+		<nav>
+			<span><a onclick="ShowMenu('predvajalnik')">Radijska postaja</a></span> | 
+			<span><a onclick="ShowMenu('teme')">Barvna shema</a></span> | 
+			<span><a onclick="ShowMenu('credits')">Credits</a></span>
+		</nav>
 		<div id="predvajalnik">
-			postaja:<br>
-			<audio id="streamer" autoplay>
-    			<source id="source1" src="http://live1.radioantena.si/Antena-Gorenjska" type="audio/ogg">
-        		<source id="source2" src="http://live1.radioantena.si/Antena-Gorenjska" type="audio/mpeg">
-            	<source id="source3" src="http://live1.radioantena.si/Antena-Gorenjska" type="audio/waw">
-            	Your browser does not support the audio element.
-            </audio>
-            <img id="ustavi" src="http://spletnival.com/datoteke/slike/grafike/modra/ustavi.svg" onclick="document.getElementById('streamer').pause();document.getElementById('ustavi').style.display='none';document.getElementById('predvajaj').style.display='block';" alt="Stop">
-            <img id="predvajaj" onclick="document.getElementById('streamer').play();document.getElementById('predvajaj').style.display='none';document.getElementById('predvajaj').style.display='block';" src="http://spletnival.com/datoteke/slike/grafike/modra/predvajaj.svg" style="display:none;" alt="Play">
-		</div>
-		<div id="seznam" style="display:none;">
-			<input type="text" id="iskanje" placeholder="išči" onkeyup="postaje()">
-			<div id="postaje"></div>
-			<script>postaje();</script>
+			<h1 id="RadionName"></h1>
+            <div id="ustavi" class="icon icon-play" onclick="StartStopRadio();" style="display:none;"></div>
+            <div id="predvajaj" class="icon icon-stop" onclick="StartStopRadio();"></div>
+            <div id="muted" class="icon icon-muted" onclick="muteRadio();"></div>
+            <div id="mute" class="icon icon-mute" onclick="muteRadio();" style="display:none;"></div>
+			<div id="volume"></div>
+			<script>VolumeSlider();</script>
+			<div id="seznam">
+				<input type="text" id="iskanje" placeholder="išči" onkeyup="AllRadioStations();">
+				<div id="postaje"></div>
+				<script>AllRadioStations();</script>
+			</div>
 		</div>
 		<div id="teme" style="display:none;">
 			<p id="tematika">
-				<span><a onclick="tema('crna')">crna</a></span> | 
-				<span><a onclick="tema('bela')">bela</a></span>
+				<span><a onclick="ChangeTheme('bela')" style="background-color:white;" class="ColorTheme"></a></span>
+				<span><a onclick="ChangeTheme('crna')" style="background-color:black;" class="ColorTheme"></a></span>
+				<span><a onclick="ChangeTheme('rdeca')" style="background-color:red;" class="ColorTheme"></a></span>
+				<span><a onclick="ChangeTheme('zelena')" style="background-color:green;" class="ColorTheme"></a></span>
+				<span><a onclick="ChangeTheme('rumena')" style="background-color:yellow;" class="ColorTheme"></a></span>
+				<span><a onclick="ChangeTheme('modra')" style="background-color:blue;" class="ColorTheme"></a></span>
 			</p>
 		</div>
 		<div id="credits" style="display:none;">
-			credits
+			v0.1.0
 		</div>
 	</div>
+	<footer>2015 Gorazd Krumpak</footer>
 	</body>
+	<script>checkSettings();</script>
 </html>

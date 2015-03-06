@@ -1,33 +1,181 @@
 body{
 	margin:0;
-	padding:0;
+	padding:50px 0 0 0;
 	font-family: arial;
 }
+footer{
+	text-align: center;
+	color: #444;
+	padding: 13px 0;
+	font-size: 12px;
+	clear: both;
+}
 #tema{
-	width: 300px;
-	height:500px;
+	width: 450px;
+	height:590px;
 	margin: 0 auto;
 	-moz-box-shadow:1px 1px 2px 2px rgba(51,51,51, 0.75);
 	-webkit-box-shadow:1px 1px 2px 2px rgba(51,51,51, 0.75);
 	box-shadow:1px 1px 2px 2px rgba(51,51,51, 0.75);
-	padding:0 20px 20px 20px;
+	padding: 10px 0 0 0; 
 }
-.crna{
-	color:#fff;
-	background-color:#000;
+#tematika, #credits{
+	padding: 28px;
+	text-align: center;
 }
-.bela{
-	color:#000;
-	background-color:#fff;
+nav{
+	padding: 0 20px 20px 20px;
+	text-align: center;
+	width: 410px;
+	font-weight: bold;
+}
+#RadionName{
+	font-size: 25px;
+	text-align: center;
+	height: 35px;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	margin: 25px 0 40px 0;
+	clear: both;
+}	
+.icon {
+	font-size: 40px;
+	cursor:pointer;
+	float:left;
+	margin: 0 10px 0 20px;
+}
+.icon:first{
+	margin-left: 50px;
+}
+#iskanje{
+	width: 396px;
+	margin: 0;
+    padding: 2px 25px;
+	font-size: 20px;
+	clear: both;
+}
+#seznam{
+	clear: both;
+	padding: 20px 0;
 }
 #postaje{
     overflow: scroll;
-    overflow-x:hidden;
-    height: 400px;
+    overflow-x:hidden; 
+    height: 315px;
+    width: 100%;
+    margin: 10px 0;
 }
-.crna #postaje a{
-	color:#fff;
+.ColorTheme{
+	width: 185px;
+	height: 147px;
+	float: left;
+	margin: 5px;
+	border: solid 1px #999;
 }
-.bela #postaje a{
+#volume{
+	width: 220px;
+	height: 40px;
+	float: left;
+	position: relative;
+}
+.volumeBar{
+	float: left;
+	position: relative;
+}
+/* THEME */
+/* BELA */
+.bela, .bela h1 a, .bela #postaje a, .bela #postaje a:visited, .bela #ustavi, .bela #mute, .bela #muted, .bela #iskanje, .bela nav{
 	color:#000;
+	background-color:#fff;
+	text-decoration: none;
+}
+.bela #postaje a:hover, .bela #predvajaj:hover, .bela #ustavi:hover, .bela #mute:hover, .bela #muted:hover, .bela #iskanje:hover, .bela nav a:hover{
+	color:#999;
+}
+.bela .volumeBar{
+	background-color: #777;
+	border-left: 1px solid #770;
+}
+.bela .volumeBar:hover, .bela .over{
+	background-color: #333;
+}
+/* ČRNA */
+.crna, .crna h1 a, .crna #postaje a, .crna #postaje a:visited, .crna #ustavi, .crna #mute, .crna #muted, .crna #iskanje, .crna nav{
+	color:#fff;
+	background-color:#000;
+	text-decoration: none;
+}
+.crna #postaje a:hover, .crna #predvajaj:hover, .crna #ustavi:hover, .crna #mute:hover, .crna #muted:hover, .crna #iskanje:hover, .crna nav a:hover{
+	color:#CCC;
+}
+.crna .volumeBar{
+	background-color: #EEE;
+	border-left: 1px solid #777;
+}
+.crna .volumeBar:hover, .crna .over{
+	background-color: #111;
+}
+/* RDEČA */
+.rdeca, .rdeca h1 a, .rdeca #postaje a, .rdeca #postaje a:visited, .rdeca #ustavi, .rdeca #mute, .rdeca #muted, .rdeca #iskanje, .rdeca nav{
+	color:#FFF;
+	background-color:#F00;
+	text-decoration: none;
+}
+.rdeca #postaje a:hover, .rdeca #predvajaj:hover, .rdeca #ustavi:hover, .rdeca #mute:hover, .rdeca #muted:hover, .rdeca #iskanje:hover, .rdeca nav a:hover{
+	color:#FCC;
+}
+.rdeca .volumeBar{
+	background-color: #fcc;
+	border-left: 1px solid #ff8484;
+}
+.rdeca .volumeBar:hover, .rdeca .over{
+	background-color: #ff0000;
+}
+/* ZELENA */
+.zelena, .zelena h1 a, .zelena #postaje a, .zelena #postaje a:visited, .zelena #ustavi, .zelena #mute, .zelena #muted, .zelena #iskanje, .zelena nav{
+	color:#FFF;
+	background-color:#517c26;
+	text-decoration: none;
+}
+.zelena #postaje a:hover, .zelena #predvajaj:hover, .zelena #ustavi:hover, .zelena #mute:hover, .zelena #muted:hover, .zelena #iskanje:hover, .zelena nav a:hover{
+	color:#72bf26;
+}
+.zelena .volumeBar{
+	background-color: #84d82f;
+	border-left: 1px solid #72bf26;
+}
+.zelena .volumeBar:hover, .zelena .over{
+	background-color: #499300;
+}
+/* RUMENA */
+.rumena, .rumena h1 a, .rumena #postaje a, .rumena #postaje a:visited, .rumena #ustavi, .rumena #mute, .rumena #muted, .rumena #iskanje, .rumena nav{
+	color:#000;
+	background-color:#edb100;
+	text-decoration: none;
+}
+.rumena #postaje a:hover, .rumena #predvajaj:hover, .rumena #ustavi:hover, .rumena #mute:hover, .rumena #muted:hover, .rumena #iskanje:hover, .rumena nav a:hover{
+	color:#f9d054;
+}
+.rumena .volumeBar{
+	background-color: #e08f38;
+	border-left: 1px solid #edb100;
+}
+.rumena .volumeBar:hover, .rumena .over{
+	background-color: #af620f;
+}
+/* MODRA */
+.modra, .modra h1 a, .modra #postaje a, .modra #postaje a:visited, .modra #ustavi, .modra #mute, .modra #muted, .modra #iskanje, .modra nav{
+	color:#FFF;
+	background-color:#3b85ce;
+	text-decoration: none;
+}
+.modra #postaje a:hover, .modra #predvajaj:hover, .modra #ustavi:hover, .modra #mute:hover, .modra #muted:hover, .modra #iskanje:hover, .modra nav a:hover{
+	color:#afcdea;
+}
+.modra .volumeBar{
+	background-color: #6899c9;
+	border-left: 1px solid #3b85ce;
+}
+.modra .volumeBar:hover, .modra .over{
+	background-color: #005fbf;
 }

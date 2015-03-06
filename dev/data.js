@@ -1,4 +1,4 @@
-function data(){
+function RadioStationList(){
 var seznamVsehPostaj = [
 {'ime': 'Antena Gorenjska', 'kodno': 'antena-gorenjska', 'stream': 'http://live1.radioantena.si/Antena-Gorenjska', 'slika': 'antena-gorenjska.png'},
 {'ime': 'Antena Štajerska', 'kodno': 'antena-stajerska', 'stream': 'http://live1.radioantena.si/Antena-Stajerska', 'slika': 'antena-stajerska.png'},
