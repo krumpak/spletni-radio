@@ -22,13 +22,14 @@
 			<span><a onclick="meni('teme')">teme</a></span> | 
 			<span><a onclick="meni('credits')">credits</a></span>
 		</p>
+		
 		<div id="predvajalnik">
 			postaja:<br>
 			<audio id="streamer" autoplay>
     			<source id="source1" src="http://live1.radioantena.si/Antena-Gorenjska" type="audio/ogg">
         		<source id="source2" src="http://live1.radioantena.si/Antena-Gorenjska" type="audio/mpeg">
             	<source id="source3" src="http://live1.radioantena.si/Antena-Gorenjska" type="audio/waw">
-            	Your browser does not support the audio element.
+            	Your browser does not support the audio elementss.
             </audio>
             <img id="ustavi" src="http://spletnival.com/datoteke/slike/grafike/modra/ustavi.svg" onclick="document.getElementById('streamer').pause();document.getElementById('ustavi').style.display='none';document.getElementById('predvajaj').style.display='block';" alt="Stop">
             <img id="predvajaj" onclick="document.getElementById('streamer').play();document.getElementById('predvajaj').style.display='none';document.getElementById('predvajaj').style.display='block';" src="http://spletnival.com/datoteke/slike/grafike/modra/predvajaj.svg" style="display:none;" alt="Play">
