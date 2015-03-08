@@ -1,3 +1,3 @@
 # spletni-radio.dev
 
-demo project
+HTML5, CSS, pure JavaScript app 
