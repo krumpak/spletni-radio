@@ -37,15 +37,25 @@ nav{
 	text-overflow:ellipsis;
 	margin: 25px 0 40px 0;
 	clear: both;
-}	
+}
+#kontrolnik{
+	text-align: center;
+}
 .icon {
 	font-size: 40px;
 	cursor:pointer;
-	float:left;
+	display: inline-block;
 	margin: 0 10px 0 20px;
 }
-.icon:first{
-	margin-left: 50px;
+#volume{
+	width: 100px;
+	height: 40px;
+	display: inline-block;
+	position: relative;
+}
+.volumeBar{
+	display: inline-block;
+	position: relative;
 }
 #iskanje{
 	width: 396px;
@@ -71,16 +81,6 @@ nav{
 	float: left;
 	margin: 5px;
 	border: solid 1px #999;
-}
-#volume{
-	width: 220px;
-	height: 40px;
-	float: left;
-	position: relative;
-}
-.volumeBar{
-	float: left;
-	position: relative;
 }
 /* THEME */
 /* BELA */
