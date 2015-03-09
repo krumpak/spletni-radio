@@ -129,15 +129,16 @@ function getStationDataArray(Station)
     var StationData = '';
     for(var i = 0; i < StationAllData.length; i++)
     {
-        if( StationAllData[i].kodno == Station )
+        if( StationAllData[i].kodno == Station && StationAllData[i].kodno != undefined && StationAllData[i].kodno != null && StationAllData[i].kodno != '' )
         {
-            StationData = StationAllData[i];//[StationData[i].id, StationData[i].ime, StationData[i].kodno, StationData[i].stream, StationData[i].slika ];
+            StationData = StationAllData[i];
         }
     }
     return StationData;
 }
 
-function PlayRadio(stream) {
+function PlayRadio(stream)
+{
     var audioElement = document.createElement('audio');
     audioElement.setAttribute('id', 'streamer');
     audioElement.setAttribute('src', stream);
@@ -193,15 +194,7 @@ function initiateRadio()
 	        $('streamer').volume = cVolume;
 	        var max = 30;
 	        var bar = max*cVolume;
-            var element = '';
-	        for(var i=1;i<=max;i++){
-	            element = 'bar'+i;
-	            if(i<=bar){
-                    $('bar'+i).className = 'volumeBar over';
-	            } else {
-                    $('bar'+i).className = 'volumeBar';
-	            }
-	        }
+            initiateVolume(bar,max);
 	    } else {
 	        setLS_VolumeValue(cVolume);
 	    }
@@ -210,7 +203,21 @@ function initiateRadio()
 	} 
 }
 
-function StartStopRadio(){
+function initiateVolume(bar,max) 
+{
+    var element = '';
+    for(var i=1;i<=max;i++){
+        element = 'bar'+i;
+        if(i<=bar){
+            $(element).className = 'volumeBar over';
+        } else {
+            $(element).className = 'volumeBar';
+        }
+    }
+}
+
+function StartStopRadio()
+{
     if( $('streamer').paused )
     {
         var RadioData = getStationDataArray( getLS_Station() );
@@ -226,7 +233,8 @@ function StartStopRadio(){
     }
 }
 
-function muteRadio(){
+function muteRadio()
+{
     if( $('streamer').muted )
     {
         $('mute').style.display='none';
@@ -240,7 +248,8 @@ function muteRadio(){
 }
 
 /* VOLUME SLIDER*/
-function VolumeSlider(){
+function VolumeSlider()
+{
     var NumberOfColumns=30;
     var height=30;
     var width=100-NumberOfColumns;
@@ -258,31 +267,24 @@ function VolumeSlider(){
     $('volume').innerHTML = Slider;
 }
 
-function ChangeMouseVolumeSlider(bar,max){
+function ChangeMouseVolumeSlider(bar,max)
+{
     var volume = bar/max;
     ChangeVolume(volume);
-
-    for(var i=1;i<=max;i++){
-        var element = "bar"+i;
-        if(i<=bar){
-            $(element).className = 'volumeBar over';
-        } else {
-            $(element).className = 'volumeBar';
-        }
-    }
+    initiateVolume(bar,max) 
 }
 
 function RevertStationButton()
 {
     var revertStationData = getStationDataArray( getLS_Revert() );
     var name = revertStationData.ime;
-    if( name != '' && name.length >= 1 )
+    if( name != undefined && name.length >= 1 )
     {
         $('revert').style.display='block';
         $('revert').innerHTML = name+' <span class="icon icon-revert"></span>'
     } else {
         $('revert').style.display='none';
-        $('revert').innerHTML = "";
+        $('revert').innerHTML = '';
     }
 }
 
