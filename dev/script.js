@@ -282,7 +282,7 @@ function RevertStationButton()
         $('revert').innerHTML = name+' <span class="icon icon-revert"></span>'
     } else {
         $('revert').style.display='none';
-        $('revert').innerHTML = '';
+        $('revert').innerHTML = "";
     }
 }
 
