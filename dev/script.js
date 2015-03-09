@@ -275,7 +275,15 @@ function ChangeMouseVolumeSlider(bar,max){
 function RevertStationButton()
 {
     var revertStationData = getStationDataArray( getLS_Revert() );
-    $('revert').innerHTML= revertStationData.ime+' <span class="icon icon-revert"></span>'
+    var name = revertStationData.ime;
+    if( name != '' && name.length >= 1 )
+    {
+        $('revert').style.display='block';
+        $('revert').innerHTML = name+' <span class="icon icon-revert"></span>'
+    } else {
+        $('revert').style.display='none';
+        $('revert').innerHTML = '';
+    }
 }
 
 function RevertStation()
