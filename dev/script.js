@@ -5,7 +5,7 @@ function $(id)
 
 function ShowMenu(page)
 {
-    var buttons = ['predvajalnik', 'teme', 'credits'];
+    var buttons = ['predvajalnik', 'credits'];
 
     for(var i = 0; i < buttons.length; i++)
     {
@@ -52,6 +52,14 @@ function getLS_Station()
     return value;  
 }
 
+function getLS_Revert()
+{
+    var LS_value = localStorage.getItem("RadioStationRevert");
+    var value = localStorage.getItem("RadioStationRevert"); 
+    if( LS_value == '' || LS_value == null || LS_value == undefined ){ value = ''; }
+    return value;  
+}
+
 function getLS_Theme()
 {
     var LS_value = localStorage.getItem("RadioTheme");
@@ -73,6 +81,14 @@ function setLS_RadioStationValue(RadioStation)
     return localStorage.setItem("RadioStation", RadioStation);
 }
 
+function setLS_RadioStationRevertValue(Previous, Next)
+{
+    if( Previous != Next )
+    {
+        return localStorage.setItem( "RadioStationRevert", Previous );
+    }
+}
+
 function setLS_ThemeValue(RadioTheme)
 {
     return localStorage.setItem("RadioTheme", RadioTheme);
@@ -85,6 +101,7 @@ function setLS_VolumeValue(RadioVolume)
 
 function ChangeRadioStation(RadioStation)
 {
+    setLS_RadioStationRevertValue( getLS_Station(), RadioStation );
     setLS_RadioStationValue(RadioStation);
     window.location.replace("/?"+RadioStation);
 }
@@ -104,6 +121,20 @@ function ChangeVolume(Volume)
 function getUrlStation()
 {
     return window.location.search.substring(1);
+}
+
+function getStationDataArray(Station)
+{
+    var StationAllData = RadioStationList();
+    var StationData = '';
+    for(var i = 0; i < StationAllData.length; i++)
+    {
+        if( StationAllData[i].kodno == Station )
+        {
+            StationData = StationAllData[i];//[StationData[i].id, StationData[i].ime, StationData[i].kodno, StationData[i].stream, StationData[i].slika ];
+        }
+    }
+    return StationData;
 }
 
 function PlayRadio(stream) {
@@ -146,33 +177,29 @@ function initiateRadio()
 	    LS_Theme = getLS_Theme();
 	    $("tema").className = LS_Theme;
 
-		var AllRadioStations=RadioStationList();
-	    for(var i = 0; i < AllRadioStations.length; i++)
-	    {
-	        if( AllRadioStations[i].kodno == LS_Station )
-	        {
-	            var StreamURL = AllRadioStations[i].stream;
-	            if($('streamer') == null)
-	            {
-	                PlayRadio(StreamURL);
-	                $('RadionName').innerHTML = "<a href='?"+AllRadioStations[i].kodno+"' target='_self'>"+AllRadioStations[i].ime+"</a>";
-	                document.title = AllRadioStations[i].ime;
-	            }
-	        }
-	    }
+        RadioData = getStationDataArray(LS_Station);
+
+        if($('streamer') == null)
+        {
+            PlayRadio(RadioData.stream);
+            $('RadionName').innerHTML = "<a href='?"+RadioData.kodno+"' target='_self'>"+RadioData.ime+"</a>";
+            document.title = RadioData.ime;
+            RevertStationButton();
+        }
 
 	    var cVolume = getLS_Volume();
 	    if( cVolume >= 0 && cVolume <= 1)
 	    {
 	        $('streamer').volume = cVolume;
-	        var max = 40;
+	        var max = 30;
 	        var bar = max*cVolume;
+            var element = '';
 	        for(var i=1;i<=max;i++){
-	            var element = "bar"+i;
+	            element = 'bar'+i;
 	            if(i<=bar){
-	                $(element).className = 'volumeBar over';
+                    $('bar'+i).className = 'volumeBar over';
 	            } else {
-	                $(element).className = 'volumeBar';
+                    $('bar'+i).className = 'volumeBar';
 	            }
 	        }
 	    } else {
@@ -186,11 +213,14 @@ function initiateRadio()
 function StartStopRadio(){
     if( $('streamer').paused )
     {
+        var RadioData = getStationDataArray( getLS_Station() );
+        $('streamer').setAttribute('src', RadioData.stream);
         $('streamer').play();
         $('predvajaj').style.display='inline-block';
         $('ustavi').style.display='none';
     } else {
-        $('streamer').pause();
+        //$('streamer').pause();
+        $('streamer').setAttribute('src', '');
         $('predvajaj').style.display='none';
         $('ustavi').style.display='inline-block';
     }
@@ -240,4 +270,16 @@ function ChangeMouseVolumeSlider(bar,max){
             $(element).className = 'volumeBar';
         }
     }
+}
+
+function RevertStationButton()
+{
+    var revertStationData = getStationDataArray( getLS_Revert() );
+    $('revert').innerHTML= revertStationData.ime+' <span class="icon icon-revert"></span>'
+}
+
+function RevertStation()
+{
+    var revertStationData = getStationDataArray( getLS_Revert() );
+    ChangeRadioStation( revertStationData.kodno );
 }
