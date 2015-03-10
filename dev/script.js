@@ -189,11 +189,13 @@ function initiateRadio()
         }
 
         if( detectMobile() )
-    {
+        {
             $('ustavi').style.display='inline-block';
             $('predvajaj').style.display='none';
             $('mute').style.display='none';
             $('muted').style.display='none';
+            $('ustavi').style.marginLeft='120px';
+            $('predvajaj').style.marginLeft='120px';
         }
 
 	    var cVolume = getLS_Volume();
