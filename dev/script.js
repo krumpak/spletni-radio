@@ -188,8 +188,16 @@ function initiateRadio()
             RevertStationButton();
         }
 
+        if( detectMobile() )
+    {
+            $('ustavi').style.display='inline-block';
+            $('predvajaj').style.display='none';
+            $('mute').style.display='none';
+            $('muted').style.display='none';
+        }
+
 	    var cVolume = getLS_Volume();
-	    if( cVolume >= 0 && cVolume <= 1)
+	    if( cVolume >= 0 && cVolume <= 1 && !detectMobile() )
 	    {
 	        $('streamer').volume = cVolume;
 	        var max = 30;
@@ -205,13 +213,16 @@ function initiateRadio()
 
 function initiateVolume(bar,max) 
 {
-    var element = '';
-    for(var i=1;i<=max;i++){
-        element = 'bar'+i;
-        if(i<=bar){
-            $(element).className = 'volumeBar over';
-        } else {
-            $(element).className = 'volumeBar';
+    if( !detectMobile() )
+    {
+        var element = '';
+        for(var i=1;i<=max;i++){
+            element = 'bar'+i;
+            if(i<=bar){
+                $(element).className = 'volumeBar over';
+            } else {
+                $(element).className = 'volumeBar';
+            }
         }
     }
 }
@@ -235,36 +246,48 @@ function StartStopRadio()
 
 function muteRadio()
 {
-    if( $('streamer').muted )
+    if( detectMobile() )
     {
         $('mute').style.display='none';
-        $('muted').style.display='inline-block';
-        $('streamer').muted = false;
-    } else {
-        $('mute').style.display='inline-block';
         $('muted').style.display='none';
-        $('streamer').muted = true;
+    } else {
+        if( $('streamer').muted )
+        {
+            $('mute').style.display='none';
+            $('muted').style.display='inline-block';
+            $('streamer').muted = false;
+        } else {
+            $('mute').style.display='inline-block';
+            $('muted').style.display='none';
+            $('streamer').muted = true;
+        }
     }
 }
 
 /* VOLUME SLIDER*/
 function VolumeSlider()
 {
-    var NumberOfColumns=30;
-    var height=30;
-    var width=100-NumberOfColumns;
+    if( detectMobile() )
+    {
+        $('volume').innerHTML = '';
+    } else {
+        var NumberOfColumns=30;
+        var height=30;
+        var width=100-NumberOfColumns;
 
-    var barWidth = parseInt(width/NumberOfColumns);
-    var Slider = '';
-    var SliderCline = height/NumberOfColumns;
-    var SliderHeight = 0;
-    var SliderTop = 100-SliderHeight;
-    for(var i = 1; i <= NumberOfColumns; i++){
-        SliderHeight += SliderCline;
-        SliderTop = 100-SliderHeight;
-        Slider += '<div id="bar'+i+'" onmousedown="ChangeMouseVolumeSlider('+i+','+NumberOfColumns+')" class="volumeBar" style="height:'+parseInt(SliderHeight)+'px;width:'+barWidth+'px;margin-top:'+parseInt(SliderTop-100+height)+'px"></div>';
+        var barWidth = parseInt(width/NumberOfColumns);
+        var Slider = '';
+        var SliderCline = height/NumberOfColumns;
+        var SliderHeight = 0;
+        var SliderTop = 100-SliderHeight;
+        for(var i = 1; i <= NumberOfColumns; i++){
+            SliderHeight += SliderCline;
+            SliderTop = 100-SliderHeight;
+            Slider += '<div id="bar'+i+'" onmousedown="ChangeMouseVolumeSlider('+i+','+NumberOfColumns+')" class="volumeBar" style="height:'+parseInt(SliderHeight)+'px;width:'+barWidth+'px;margin-top:'+parseInt(SliderTop-100+height)+'px"></div>';
+        }
+
+        $('volume').innerHTML = Slider;
     }
-    $('volume').innerHTML = Slider;
 }
 
 function ChangeMouseVolumeSlider(bar,max)
@@ -292,4 +315,21 @@ function RevertStation()
 {
     var revertStationData = getStationDataArray( getLS_Revert() );
     ChangeRadioStation( revertStationData.kodno );
+}
+
+function detectMobile()
+{ 
+ if( navigator.userAgent.match(/Android/i)
+ || navigator.userAgent.match(/webOS/i)
+ || navigator.userAgent.match(/iPhone/i)
+ || navigator.userAgent.match(/iPad/i)
+ || navigator.userAgent.match(/iPod/i)
+ || navigator.userAgent.match(/BlackBerry/i)
+ || navigator.userAgent.match(/Windows Phone/i)
+ ){
+    return true;
+  }
+ else {
+    return false;
+  }
 }
